@@ -8,6 +8,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func getRegistrations(context *gin.Context) {
+	registrations, err := models.GetAllRegistrations()
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Internal server error."})
+		return
+	}
+	context.JSON(http.StatusOK, registrations)
+}
+
 func registerForEvent(context *gin.Context) {
 	userId := context.GetInt64("userId")
 	eventId, err := strconv.ParseInt(context.Param("id"), 10, 64)

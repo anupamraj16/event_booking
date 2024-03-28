@@ -113,7 +113,7 @@ func (e Event) Register(userId int64) error {
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(e.ID, e.UserID)
+	_, err = stmt.Exec(e.ID, userId)
 
 	return err
 }
