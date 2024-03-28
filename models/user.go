@@ -11,7 +11,7 @@ type User struct {
 	ID int64
 	// bonding: gin advantage over native http package
 	Email    string `binding:"required"`
-	Password string `binding:"required"`
+	password string `binding:"required"`
 }
 
 func (u User) Save() error {
@@ -25,7 +25,7 @@ func (u User) Save() error {
 	}
 	defer stmt.Close()
 
-	hashedPassword, err := utils.HashPassword(u.Password)
+	hashedPassword, err := utils.HashPassword(u.password)
 	if err != nil {
 		return err
 	}
@@ -45,7 +45,7 @@ func (u *User) ValidateCredentials() error {
 		return errors.New("invalid credentials")
 	}
 
-	passwordIsValid := utils.CheckPasswordHash(u.Password, retrievedPassword)
+	passwordIsValid := utils.CheckPasswordHash(u.password, retrievedPassword)
 
 	if !passwordIsValid {
 		return errors.New("invalid credentials")
