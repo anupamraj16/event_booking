@@ -9,7 +9,7 @@ import (
 
 type User struct {
 	ID int64
-	// bonding: gin advantage over native http package
+	// binding: gin advantage over native http package
 	Email    string `binding:"required"`
 	password string `binding:"required"`
 }

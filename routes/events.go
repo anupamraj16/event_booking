@@ -9,7 +9,7 @@ import (
 )
 
 // gin context pointer is used to make sure that we work on the single created context
-// and us the same to send back a response to the originally received request
+// and use the same to send back a response to the originally received request
 func getEvents(context *gin.Context) {
 	events, err := models.GetAllEvents()
 	if err != nil {

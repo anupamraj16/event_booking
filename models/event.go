@@ -8,7 +8,7 @@ import (
 
 type Event struct {
 	ID int64
-	// bonding: gin advantage over native http package
+	// binding: gin advantage over native http package
 	Name        string    `binding:"required"`
 	Description string    `binding:"required"`
 	Location    string    `binding:"required"`
