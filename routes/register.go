@@ -49,8 +49,17 @@ func cancelRegistration(context *gin.Context) {
 		return
 	}
 
-	var e models.Event
-	e.ID = eventId
+	e, err := models.GetEventByID(eventId)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch event."})
+		return
+	}
+
+	if e.UserID != userId {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Not authorized to cancel registration."})
+		return
+	}
+
 	err = e.CancelRegistration(userId)
 
 	if err != nil {

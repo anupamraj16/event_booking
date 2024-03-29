@@ -1,0 +1,109 @@
+@jwtuser1 = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJleHAiOjE3MTE3NTU1ODQsInVzZXJJZCI6MX0.CYSjbdtcYiwAMo0r6f03BjYNhHDmaJYlSNS14YPSdB0
+@jwtuser2 = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QyQHRlc3QuY29tIiwiZXhwIjoxNzExNzU3MjQzLCJ1c2VySWQiOjJ9.CP_yUySgZynNRAEisGXugDcZBnTzMYk2fHIXLk_qhaA
+
+# signup 1st user
+POST http://localhost:5001/signup
+Content-Type: application/json
+
+{
+    "email": "test@test.com",
+    "password": "password"
+}
+
+###
+# signup 2nd user
+POST http://localhost:5001/signup
+Content-Type: application/json
+
+{
+    "email": "test2@test.com",
+    "password": "password"
+}
+
+###
+# login 1st user
+POST http://localhost:5001/login
+Content-Type: application/json
+
+{
+    "email": "test@test.com",
+    "password": "password"
+}
+
+###
+# login 2nd user
+POST http://localhost:5001/login
+Content-Type: application/json
+
+{
+    "email": "test2@test.com",
+    "password": "password"
+}
+
+###
+GET http://localhost:5001/registrations
+
+###
+GET http://localhost:5001/events
+
+###
+GET http://localhost:5001/events/1
+
+###
+POST http://localhost:5001/events
+Content-Type: application/json
+Authorization: {{jwtuser1}}
+
+{
+    "name": "test",
+    "description": "test",
+    "location": "test",
+    "dateTime": "2024-01-01T15:30:00.000Z"
+}
+
+###
+# user1 who created the event is able to update the event
+PUT http://localhost:5001/events/1
+Content-Type: application/json
+Authorization: {{jwtuser1}}
+
+{
+    "name": "test updated",
+    "description": "test updated",
+    "location": "test updated",
+    "dateTime": "2024-01-01T15:30:00.000Z"
+}
+
+###
+# user2 who did not creat the event is not able to update the event
+PUT http://localhost:5001/events/1
+Content-Type: application/json
+Authorization: {{jwtuser2}}
+
+{
+    "name": "test updated",
+    "description": "test updated",
+    "location": "test updated",
+    "dateTime": "2024-01-01T15:30:00.000Z"
+}
+
+###
+# user1 who created the event is able to delete the event
+DELETE  http://localhost:5001/events/1
+Content-Type: application/json
+Authorization: {{jwtuser1}}
+
+###
+# user2 who did not creat the event is not able to delete the event
+Content-Type: application/json
+Authorization: {{jwtuser2}}
+
+###
+POST  http://localhost:5001/events/1/register
+Content-Type: application/json
+Authorization: {{jwtuser2}}
+
+###
+DELETE  http://localhost:5001/events/1/register
+Content-Type: application/json
+Authorization: {{jwtuser1}}
